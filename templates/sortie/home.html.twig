@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}} | {{parent()}}{% endblock %}
+
+{% block body %}
+<div>
+    <section class="container-fluid h-custom w-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="d-none d-md-flex flex-row flex-wrap justify-content-center">
+                <div class="cardsorti col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 col-xxl-5 my-3">
+                    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Les sorties organisées</h1>
+                    {{ form_start(formSearch) }}
+                <div class="p-1">
+                    <h2 class="fs-5 text-white">Filtrer les sorties</h2>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="sortie_filter_campus">Campus</label>
+                        {{form_widget(formSearch.campus)}}
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label for="sortie_filter_recherche" class="input-group-text">Le nom de la sortie contient</label>
+                        {{form_widget(formSearch.recherche)}}
+                    </div>
+                    <div class="input-group mb-3"><small class="text-white">* Pour filtrer par dates, les deux champs sont requis.</small></div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="sortie_filter_date_minimum" >Entre le :</label>
+                        {{form_widget(formSearch.date_minimum)}}
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="sortie_filter_date_max" >et le :</label>
+                        {{form_widget(formSearch.date_max)}}
+                    </div>
+                </div>
+                <div  class="p-2 fs-5">
+                    <div class="input-group mb-3 d-flex flex-column">
+                        <div class="form-check">
+                            {{form_widget(formSearch.organisateur)}}
+                            <label class="form-check-label" for="sortie_filter_organisateur">Sorties dont je suis l'organisateur.trice</label>
+                        </div>
+                        <div class="form-check">
+                            {{form_widget(formSearch.inscrit)}}
+                            <label class="form-check-label" for="sortie_filter_inscrit">Sorties auxquelles je suis inscrit.e</label>
+                        </div>
+                        <div class="form-check">
+                            {{form_widget(formSearch.not_inscrit)}}
+                            <label class="form-check-label" for="sortie_filter_not_inscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
+                        </div>
+                        <div class="form-check">
+                            {{form_widget(formSearch.passe)}}
+                            <label class="form-check-label" for="sortie_filter_passe">Sorties passées</label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion">Recherche</button>
+                    </div>
+                </div>
+                {{ form_end(formSearch) }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="col-12 col-10  m-auto">
+        <div class="box-table mt-3">
+            <table class="table">
+                <thead class="thead-light" >
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col" class="d-none d-md-table-cell">Clôture</th>
+                    <th scope="col" class="d-none d-md-table-cell">Participants</th>
+                    <th scope="col" class="d-none d-md-table-cell">Etat</th>
+                    <th scope="col" class="d-none d-md-table-cell">Inscrit</th>
+                    <th scope="col" class="d-none d-md-table-cell">Organisateur</th>
+                    <th scope="col" class="d-none d-md-table-cell">Actions</th>
+                    <th scope="col" class="d-md-none">Lieu</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in sorties%}
+                    {{ include('includes/sortieComponent.html.twig') }}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center d-none d-md-block">
+            <a class="btn bg-4 btn-lg text-white f-lunatic btn-connexion my-3" role="button" aria-pressed="true" href="{{path('sortie_create')}}">Créer une Sortie</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

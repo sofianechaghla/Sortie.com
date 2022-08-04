@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+                <a class="navbar-brand f-lunatic anim text-light fs-3"  href="{{path('sortie_home')}}">Sortir.com</a>
+                {% if not app.user%}
+                        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                                <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                                <a class="nav-link" aria-current="page" href="{{ path('app_register') }}" title="Register">Créer un compte</a>
+                                        </li>
+                                        <li class="nav-item">
+                                                <a class="nav-link" aria-current="page" href="{{ path('app_login') }}" title="Login">Se Connecter</a>
+                                        </li>
+                                </ul>
+                        </div>
+                {% else%}
+                        <strong class="d-none d-md-block">
+                                <a class="f-lunatic date fs-3" href="{{ path('app_profil',{'id':app.user.id}) }}">
+                                        Hello  {{app.user.pseudo}}
+                                </a>
+                        </strong>
+                        <strong class="d-md-none f-lunatic date fs-3">
+                                Hello  {{app.user.pseudo}}
+                        </strong>
+                {% endif %}
+        </div>
+</nav>

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+        {{title}} | {{parent()}}
+{% endblock %}
+
+{% block body %}
+        <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les villes</h1>
+        <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les villes</h2>
+        {{include('includes/searchForm.html.twig')}}
+        <div class="col-12 col-10   m-auto">
+                <div class="box-table">
+                        <table class="table">
+                                <thead class="thead-light" >
+                                <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Code Postal</th>
+                                        <th scope="col">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{form_start(formVille)}}
+                                <tr>
+                                        <td>
+                                                <div class="input-group">
+                                                        <label class="input-group-text d-none d-md-block" for="ville_nom">Nom</label>
+                                                        {{form_widget(formVille.nom)}}
+                                                </div>
+                                                        {{form_errors(formVille.nom)}}
+                                        </td>
+                                        <td>
+                                                <div class="input-group">
+                                                        <label class="input-group-text d-none d-md-block" for="ville_codePostal">Code Postal</label>
+                                                        {{form_widget(formVille.codePostal)}}
+                                                </div>
+                                                {{form_errors(formVille.codePostal)}}
+                                        </td>
+                                        <td class="tdSubmit"><button type="submit" class="bg-4 btn btn-sm text-white f-lunatic btn-connexion">{{ button }}</button></td>
+                                </tr>
+                                {{ form_end(formVille)}}
+                                {% for ville in villes %}
+                                        <tr>
+                                                <td>{{ville.nom}}</td>
+                                                <td>{{ville.codePostal}}</td>
+                                                <td><a class="btn bg-4 btn-sm text-white btn-connexion  mb-1"  href="{{path('ville_modify',{'id':ville.id})}}">Modifier</a> - <a class="btn bg-4 btn-sm text-white btn-connexion  mb-1"  href="{{path('ville_delete',{'id':ville.id})}}">Supprimer</a></td>
+                                        </tr>
+                                {% endfor%}
+
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+{% endblock %}

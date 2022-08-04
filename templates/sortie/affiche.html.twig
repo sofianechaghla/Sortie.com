@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}} - {{parent()}}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center p-2 f-lunatic text-white">Afficher une sortie</h1>
+    {% if motif is defined %}
+        <div class="toast m-auto d-block">
+            <div class="toast-header text-center bg-danger">
+                <strong class="text-light d-block w-100">SORTIE ANNULÉE</strong>
+            </div>
+            <div class="toast-body bg-warning">
+                {{ motif }}
+            </div>
+        </div>
+    {% endif %}
+    <div class="card col-12 col-md-10 col-lg-8 mx-auto mb-3">
+        <div class="card-body bg-2">
+            <h2 class="card-title text-center">{{sortie.nom}}</h2>
+            <p class="card-text">Date de la sortie :
+                {{sortie.dateHeureDebut | format_datetime('short','full',locale='fr') | split(' ')[0]}}
+            </p>
+            <p class="card-text">
+                heure de la sortie :
+                {{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[5]|split(':')[0]}}H{{sortie.dateHeureDebut | format_datetime('full','full',locale='fr') | split(' ')[5]|split(':')[1]}}</p>
+            <p class="card-text">Date limite d'inscription :
+                {{sortie.dateLimiteInscription | format_datetime('short','full',locale='fr') | split(' ')[0]}}
+            </p>
+
+        </div>
+        <ul class="list-group list-group-flush w-100">
+            <li class="list-group-item bg-1">Nombre de place : {{sortie.nbInscriptionsMax}}  &nbsp; &nbsp; &nbsp; ⭐ &nbsp; &nbsp; &nbsp;  Durée : {{sortie.duree}} min</li>
+            <li class="list-group-item bg-1">Description des infos : {{sortie.infosSortie}}</li>
+        </ul>
+        <div class="card-body bg-5 w-100">
+            <p class="card-text">Campus : {{sortie.campus.nom}}</p>
+            <p class="card-text">Lieu : {{sortie.lieux.nom}}</p>
+            <p class="card-text">Rue : {{sortie.lieux.rue}}</p>
+            <p class="card-text">Code Postal : {{sortie.lieux.ville.codePostal}}</p>
+            <p class="card-text">Latitude : {{sortie.lieux.latitude}}</p>
+            <p class="card-text">Longitude : {{sortie.lieux.longitude}}</p>
+        </div>
+    </div>
+    <div class="container col-12 col-lg-10 mx-auto mb-3">
+        <h2 class="text-center f-lunatic text-white">liste des partitipants</h2>
+        <div class="col-12 col-sm-10 col-lg-8 col-xl-6 col-xxl-5  m-auto">
+            <div class="box-table">
+                <table class="table">
+                    <thead class="thead-light" >
+                    <tr class="bg-1">
+                        <th scope="col" class="d-none d-md-table-cell">Pseudo</th>
+                        <th scope="col">Nom complet</th>
+                        <th scope="col" class="d-md-none">Campus</th>
+                        <th scope="col"  class="text-center">Ajouter aux Favoris</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in listeParticipants %}
+                        <tr>
+                            <td  class="d-none d-md-table-cell"><a  class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{path('app_profil',{'id':participant.id})}}">{{participant.pseudo}}</a></td>
+                            <td> {{participant.nom}} {{participant.prenom}}</td>
+                            <td class="d-md-none"> {{participant.campus.nom}}</td>
+                            {% if participant in app.user.favoris%}
+                                <td class="text-center"><a href="{{path('remove_favoris',{'id':participant.id})}}"  class="fs-4 text-decoration-none">&#x1F31F;</a></td>
+                            {%else%}
+                                <td class="text-center"><a href="{{path('add_favoris',{'id':participant.id})}}" class="fs-4 text-decoration-none text-secondary">&#9734;</a></td>
+                            {%endif%}
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

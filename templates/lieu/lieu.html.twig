@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{title}} | {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les lieux</h1>
+    <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les lieux</h2>
+
+    {{form_start(formSearch)}}
+    <div class="p-1 d-flex flex-row justify-content-center col-11 mx-auto ">
+        <div class="input-group mb-3 w-100">
+            {{form_widget(formSearch.name, {'full_name': 'search'})}}
+        </div>
+        <div class="input-group mb-3 w-auto">
+            <button class="btn bg-4 btn-md text-white f-lunatic btn-connexion" type="submit" id="button-addon2">Rechercher</button>
+        </div>
+    </div>
+        {{form_end(formSearch)}}
+
+    </div>
+    <div class="col-12 col-10   m-auto">
+        <div class="box-table">
+            <table class="table">
+                <thead class="thead-light" >
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Rue</th>
+                    <th scope="col">longitude</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">ville</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{form_start(formLieu)}}
+                <tr>
+                    <td>
+                        {{form_widget(formLieu.nom)}}
+                        {{form_errors(formLieu.nom)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.rue)}}
+                        {{form_errors(formLieu.rue)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.longitude)}}
+                        {{form_errors(formLieu.longitude)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.latitude)}}
+                        {{form_errors(formLieu.latitude)}}
+                    </td>
+                    <td>
+                        {{form_widget(formLieu.ville)}}
+                        {{form_errors(formLieu.ville)}}
+                    </td>
+                    <td>
+                            <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3 fs-6 add">Enregistrer</button>
+                    </td>
+                </tr>
+                {{ form_end(formLieu)}}
+                {% for lieu in lieux %}
+                    <tr>
+                        <td>{{lieu.nom}}</td>
+                        <td>{{lieu.rue}}</td>
+                        <td>{{lieu.longitude}}</td>
+                        <td>{{lieu.latitude}}</td>
+                        <td>{{lieu.ville}}</td>
+                        <td><a class="btn bg-4 btn-sm text-white btn-connexion mb-1"  href="{{path('lieu_modify',{'id':lieu.id})}}">Modifier</a> - <a class="btn bg-4 btn-sm text-white btn-connexion mb-1"  href="{{path('lieu_delete',{'id':lieu.id})}}">Supprimer</a></td>
+                    </tr>
+                {% endfor%}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

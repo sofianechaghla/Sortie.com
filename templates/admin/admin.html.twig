@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ title }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-3 fs-3 f-lunatic text-white">Gérer les participants</h1>
+    <h2 class="text-center my-3 fs-5 f-lunatic text-white">Filtrer les participants</h2>
+    <div class="col-sm-10 col-md-8 col-lg-6 my-2 mx-auto d-flex justify-content-around">
+        {{form_start(formSearch)}}
+        <div class="input-group">
+            {{form_widget(formSearch.name, {'full_name': 'search'})}}
+            <button class="btn bg-4 btn-md text-white f-lunatic btn-connexion" type="submit" id="button-addon2">Rechercher</button>
+        </div>
+        {{form_end(formSearch)}}
+    </div>
+    <div class="col-sm-10 col-md-8 col-lg-6 m-2 d-flex justify-content-around">
+        {{ form_start(formFile) }}
+        <div class="mb-3">
+            <label for="formFileSm" class="form-label text-white">Intégrer un fichier csv </label>
+            {{ form_widget(formFile.upload_file) }}
+            {{ form_errors(formFile.upload_file) }}
+        </div>
+        {{ form_end(formFile) }}
+    </div>
+    <div class="col-12 col-10   m-auto">
+        <div class="box-table">
+            <table class="table">
+                <thead class="thead-light" >
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for participant in participants %}
+                    <tr>
+                        <td>{{participant.pseudo}}</td>
+                        <td>{{participant.nom}}</td>
+                        <td>{{participant.prenom}}</td>
+                        <td>{{participant.email}}</td>
+                        <td>{{participant.telephone}}</td>
+                        <td>
+                            {% if participant.actif %}
+                                <a class="btn bg-3 btn-sm text-danger btn-connexion mb-1" style="width:100px;" href="{{ path('admin_disable',{'id':participant.id}) }}">Désactiver</a>
+                            {% else %}
+                                <a class="btn bg-3 btn-sm text-success btn-connexion mb-1" style="width:100px;" href="{{ path('admin_enable',{'id':participant.id}) }}">Activer</a>
+                            {% endif %}
+                            - <a class="btn bg-4 btn-sm text-white btn-connexion mb-1" href="{{ path('admin_delete',{'id':participant.id}) }}">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <section class="container-fluid h-custom w-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <h2   class="text-center my-3 fs-5 f-lunatic text-white">{{subtitle}}</h2>
+                {{ form_start(adminForm) }}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_pseudo" >Pseudo</label>
+                    {{ form_widget(adminForm.pseudo) }}
+                </div>
+                {{form_errors(adminForm.pseudo)}}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_nom" >Nom</label>
+                    {{ form_widget(adminForm.nom) }}
+                </div>
+                {{form_errors(adminForm.nom)}}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_prenom" >Prenom</label>
+                    {{ form_widget(adminForm.prenom) }}
+                </div>
+                {{form_errors(adminForm.prenom)}}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_telephone" >Téléphone</label>
+                    {{ form_widget(adminForm.telephone) }}
+                </div>
+                {{form_errors(adminForm.telephone)}}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_email" >Email</label>
+                    {{ form_widget(adminForm.email) }}
+                </div>
+                {{form_errors(adminForm.email)}}
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_plainPassword_first" >Mot de passe</label>
+                    {{ form_widget(adminForm.plainPassword.first) }}
+                </div>
+                {{form_errors(adminForm.plainPassword)}}
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_plainPassword_second" >Confirmation</label>
+                    {{ form_widget(adminForm.plainPassword.second) }}
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="basic-registration_form_pseudo" >Campus</label>
+                    {{ form_widget(adminForm.campus) }}
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="registration_form_imageFile">Avatar</label>
+                    {{ form_widget(adminForm.imageFile) }}
+                </div>
+                {{form_errors(adminForm.imageFile)}}
+                <div class="d-flex justify-content-between mb-3">
+                    <button type="submit" class="btn bg-4 btn-lg text-white f-lunatic btn-connexion mb-3">Enregistrer</button>
+                    {{ form_end(adminForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
